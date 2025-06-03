@@ -11,7 +11,7 @@ app.secret_key = 'your_secret_key'
 # Подключение к БД (SSMS)
 def get_db_connection():
     conn = pyodbc.connect(r'DRIVER={ODBC Driver 17 for SQL Server};'
-                          r'SERVER=176.126.49.253,1433;'
+                          r'SERVER=192.168.0.6,1433;'
                           r'DATABASE=BusinesCenter;'
                           r'UID=sa;'
                           r'PWD=1234')
