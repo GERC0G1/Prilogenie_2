@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бизнес-центр</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7f6;
+            font-family: Arial, sans-serif;
+        }
+        .btn-custom {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #2980b9;
+        }
+        .card {
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h3>Добро пожаловать в информационную систему бизнес-центра</h3>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <a href="{{ url_for('application_form') }}" class="btn btn-custom btn-block">Оставить заявку</a>
+                                <a href="{{ url_for('login') }}" class="btn btn-custom btn-block">Вход для сотрудников</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

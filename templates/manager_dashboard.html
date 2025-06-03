@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель менеджера</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h2>Заявки пользователей</h2>
+
+    <!-- Расширенная форма фильтрации -->
+    <form method="POST" class="form-inline mb-3">
+        <label class="mr-2" for="status_filter">Статус:</label>
+        <select name="status_filter" id="status_filter" class="form-control mr-3">
+            <option value="Все" {% if selected_status == 'Все' %}selected{% endif %}>Все</option>
+            <option value="На рассмотрении" {% if selected_status == 'На рассмотрении' %}selected{% endif %}>На рассмотрении</option>
+            <option value="В работе" {% if selected_status == 'В работе' %}selected{% endif %}>В работе</option>
+            <option value="Выполнено" {% if selected_status == 'Выполнено' %}selected{% endif %}>Выполнено</option>
+            <option value="Отклонено" {% if selected_status == 'Отклонено' %}selected{% endif %}>Отклонено</option>
+        </select>
+
+        <label class="mr-2" for="user_filter">Пользователь:</label>
+        <input type="text" name="user_filter" class="form-control mr-3" placeholder="Введите имя" value="{{ user_filter or '' }}">
+
+        <label class="mr-2" for="executor_filter">Исполнители:</label>
+        <select name="executor_filter" class="form-control mr-3">
+            <option value="all" {% if executor_filter == 'all' %}selected{% endif %}>Все</option>
+            <option value="with" {% if executor_filter == 'with' %}selected{% endif %}>С исполнителями</option>
+            <option value="without" {% if executor_filter == 'without' %}selected{% endif %}>Без исполнителей</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Применить</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Пользователь</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Исполнители</th>
+                <th>Назначить исполнителя</th>
+                <th>Изменить статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in applications %}
+            <tr>
+                <td>{{ app.UserName }}</td>
+                <td>{{ app.Title }}</td>
+                <td>{{ app.Description }}</td>
+                <td>{{ app.SubmissionDate }}</td>
+                <td>{{ app.Status }}</td>
+                <td>
+                    {% if assignments[app.Application_ID] %}
+                        <ul class="mb-0 list-unstyled">
+                        {% for user in assignments[app.Application_ID] %}
+                            <li class="d-flex justify-content-between align-items-center">
+                                {{ user.LastName }} {{ user.FirstName[0] }}.{{ user.MiddleName[0] if user.MiddleName else '' }}.
+                                <form method="POST" action="{{ url_for('unassign_executor', app_id=app.Application_ID, user_id=user.User_ID) }}" class="ml-2 mb-0">
+                                    <button class="btn btn-sm btn-danger py-0 px-2" title="Открепить">×</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <em>Не назначено</em>
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="POST" action="{{ url_for('assign_executor', app_id=app.Application_ID) }}">
+                        <div class="form-group mb-1">
+                            <select name="User_ID" class="form-control form-control-sm" required>
+                                {% for user in available_users %}
+                                    <option value="{{ user.User_ID }}">
+                                        {{ user.LastName }} {{ user.FirstName[0] }}.{{ user.MiddleName[0] if user.MiddleName else '' }}.
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-warning">Назначить</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="{{ url_for('update_application_status', app_id=app.Application_ID) }}">
+                        <select name="Status" class="form-control form-control-sm mb-1" required>
+                            <option value="На рассмотрении" {% if app.Status == 'На рассмотрении' %}selected{% endif %}>На рассмотрении</option>
+                            <option value="В работе" {% if app.Status == 'В работе' %}selected{% endif %}>В работе</option>
+                            <option value="Выполнено" {% if app.Status == 'Выполнено' %}selected{% endif %}>Выполнено</option>
+                            <option value="Отклонено" {% if app.Status == 'Отклонено' %}selected{% endif %}>Отклонено</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Изменить</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('home') }}" class="btn btn-secondary">На главную</a>
+</body>
+</html>

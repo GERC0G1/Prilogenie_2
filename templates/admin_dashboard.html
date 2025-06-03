@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Панель администратора</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h2>Панель администратора</h2>
+
+    <div class="list-group mb-4">
+        <a href="{{ url_for('admin_users') }}" class="list-group-item list-group-item-action">Управление пользователями</a>
+        <a href="{{ url_for('admin_support') }}" class="list-group-item list-group-item-action">Сообщения поддержки</a>
+        <a href="{{ url_for('admin_reset_requests') }}" class="list-group-item list-group-item-action">Запросы на восстановление пароля</a>
+        <a href="{{ url_for('admin_logs') }}" class="list-group-item list-group-item-action">Журнал действий</a>
+    </div>
+
+    <a href="{{ url_for('home') }}" class="btn btn-secondary">Выйти на главную</a>
+</body>
+</html>

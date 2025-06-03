@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Оставить заявку</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h2>Форма подачи заявки</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-warning">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="Username">Имя пользователя</label>
+            <input type="text" class="form-control" id="Username" name="Username" required>
+        </div>
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="Email" name="Email" required>
+        </div>
+        <div class="form-group">
+            <label for="title">Название заявки</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="consent" name="consent" required>
+            <label class="form-check-label" for="consent">
+                Согласен с <a href="#" data-toggle="modal" data-target="#privacyModal">обработкой персональных данных</a> (152-ФЗ)
+            </label>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary mr-2">Отправить заявку</button>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Назад</a>
+        </div>
+    </form>
+
+    <hr>
+    <p>Уже оставляли заявку?</p>
+    <a href="{{ url_for('my_applications') }}" class="btn btn-info">Посмотреть мои заявки</a>
+
+    <!-- Модальное окно политики -->
+    <div class="modal fade" id="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="privacyModalLabel">Политика обработки персональных данных</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+            <p><strong>1. Общие положения</strong></p>
+            <p>Настоящая политика обработки персональных данных составлена в соответствии с Федеральным законом №152-ФЗ и определяет порядок обработки персональных данных пользователей.</p>
+            <p><strong>2. Цель сбора данных</strong></p>
+            <p>Сбор персональных данных необходим для обработки заявок и обратной связи с пользователем.</p>
+            <p><strong>3. Хранение и защита данных</strong></p>
+            <p>Все персональные данные хранятся в защищённой системе и используются только в пределах обработки заявки.</p>
+            <p><strong>4. Согласие пользователя</strong></p>
+            <p>Пользователь, отправляя форму, подтверждает своё согласие на обработку персональных данных в соответствии с указанными условиями.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Скрипты Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

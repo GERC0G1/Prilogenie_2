@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заявка отправлена</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h2>Ваша заявка на рассмотрении</h2>
+    <p>Спасибо! Мы получили вашу заявку. Ожидайте ответа.</p>
+    <div class="d-flex">
+        <a href="{{ url_for('home') }}" class="btn btn-secondary mr-2">Вернуться на главную</a>
+        <a href="{{ url_for('my_applications') }}" class="btn btn-info">Посмотреть мои заявки</a>
+    </div>
+</body>
+</html>

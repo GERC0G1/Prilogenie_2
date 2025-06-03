@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h2>Список сотрудников</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <a href="{{ url_for('add_user') }}" class="btn btn-success mb-3">Добавить пользователя</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ФИО (И.О.)</th>
+                <th>Логин</th>
+                <th>Email</th>
+                <th>Должность</th>
+                <th>Пароль</th>
+                <th>Удаление</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.ShortName }}</td>
+                <td>{{ user.Username }}</td>
+                <td>{{ user.Email }}</td>
+                <td>{{ user.RoleName }}</td>
+                <td>
+                    <a href="{{ url_for('reset_user_password', user_id=user.User_ID) }}"
+                       class="btn btn-warning btn-sm"
+                       onclick="return confirm('Сбросить пароль пользователю {{ user.Username }}?')">
+                        Сбросить пароль
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ url_for('delete_user', user_id=user.User_ID) }}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Удалить пользователя {{ user.Username }}?')">✖</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Назад</a>
+</body>
+</html>

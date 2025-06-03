@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Обратная связь</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h2>Написать администратору</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% if not message_sent %}
+    <p>Если вы не можете войти в систему, опишите проблему ниже. Администратор получит сообщение и поможет вам.</p>
+    <form method="POST">
+        <div class="form-group">
+            <label for="Username">Ваше имя</label>
+            <input type="text" class="form-control" id="Username" name="Username" required>
+        </div>
+        <div class="form-group">
+            <label for="Message">Сообщение</label>
+            <textarea class="form-control" id="Message" name="Message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+        <a href="{{ url_for('login') }}" class="btn btn-secondary ml-2">Назад</a>
+    </form>
+    {% else %}
+    <div class="alert alert-success mt-4">
+        Ваше сообщение отправлено администратору. Ожидайте обратной связи по указанной вами почте.
+    </div>
+    <a href="{{ url_for('login') }}" class="btn btn-primary mt-3">Вернуться ко входу</a>
+    {% endif %}
+</body>
+</html>

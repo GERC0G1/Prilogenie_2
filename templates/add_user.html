@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить пользователя</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h2>Добавление сотрудника</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="LastName">Фамилия</label>
+            <input type="text" class="form-control" id="LastName" name="LastName" required>
+        </div>
+        <div class="form-group">
+            <label for="FirstName">Имя</label>
+            <input type="text" class="form-control" id="FirstName" name="FirstName" required>
+        </div>
+        <div class="form-group">
+            <label for="MiddleName">Отчество (необязательно)</label>
+            <input type="text" class="form-control" id="MiddleName" name="MiddleName">
+        </div>
+        <div class="form-group">
+            <label for="Username">Логин</label>
+            <input type="text" class="form-control" id="Username" name="Username" required>
+        </div>
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" class="form-control" id="Email" name="Email" required>
+        </div>
+        <div class="form-group">
+            <label for="Role_ID">Должность</label>
+            <select class="form-control" id="Role_ID" name="Role_ID" required>
+                <option value="1">Менеджер</option>
+                <option value="2">Администратор</option>
+                <option value="3">Экономист</option>
+                <option value="4">Программист</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Создать</button>
+        <a href="{{ url_for('admin_users') }}" class="btn btn-secondary ml-2">Назад</a>
+    </form>
+</body>
+</html>
