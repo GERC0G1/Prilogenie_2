@@ -11,7 +11,7 @@ app.secret_key = 'your_secret_key'
 # Подключение к БД (через pymssql)
 def get_db_connection():
     return pymssql.connect(
-        server='192.168.0.6.253',
+        server='192.168.0.6',
         port=1433,
         user='sa',
         password='1234',
