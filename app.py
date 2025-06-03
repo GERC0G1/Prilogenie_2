@@ -13,8 +13,8 @@ def get_db_connection():
     return pymssql.connect(
         server='192.168.0.6.253',
         port=1433,
-        user='renderuser',
-        password='StrongPassword123',
+        user='sa',
+        password='1234',
         database='BusinessCenter'
     )
 
