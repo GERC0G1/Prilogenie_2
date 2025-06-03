@@ -1,5 +1,5 @@
 Flask==2.3.2
-pyodbc
+pymssql
 email-validator
 werkzeug
 gunicorn
