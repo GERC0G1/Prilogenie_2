@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-import pyodbc
+import pymssql
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 import random
@@ -8,14 +8,15 @@ import string
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# Подключение к БД (SSMS)
+# Подключение к БД (через pymssql)
 def get_db_connection():
-    conn = pyodbc.connect(r'DRIVER={ODBC Driver 17 for SQL Server};'
-                          r'SERVER=192.168.0.6,1433;'
-                          r'DATABASE=BusinesCenter;'
-                          r'UID=sa;'
-                          r'PWD=1234')
-    return conn
+    return pymssql.connect(
+        server='192.168.0.6.253',
+        port=1433,
+        user='renderuser',
+        password='StrongPassword123',
+        database='BusinessCenter'
+    )
 
 def generate_temp_password(length=8):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
